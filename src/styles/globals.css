@@ -1,0 +1,37 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Sedan:ital@0;1&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Ropa+Sans:ital@0;1&display=swap" rel="stylesheet');
+
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.splash-screen {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: black;
+    color: white; /* Renk düzenlemesi (isteğe bağlı) */
+    font-size: 4rem;
+    opacity: 1; /* Opaklığı varsayılan olarak ayarlayın */
+    z-index: 9999;
+}
+
+/* .fadeOut sınıfını ekleyerek çıkış animasyonunu tetikleyebiliriz */
+.fadeOut {
+    animation: fadeOut 5s forwards;
+}
+
+@keyframes fadeOut {
+    to {
+        opacity: 0;
+    }
+}
+
+
+
+
+
