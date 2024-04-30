@@ -1,172 +1,78 @@
-import { CiSearch } from "react-icons/ci";
-import GlobalHeaders from "../components/header";
-export default function Index() {
+import React, { useState, useEffect } from "react";
+
+interface SplashScreenProps {
+  onAnimationEnd: React.AnimationEventHandler<HTMLDivElement>;
+}
+
+export function SplashScreen({ onAnimationEnd }: SplashScreenProps) {
   return (
-    <div className="bg-gray-50 h-screen font-Ropa-sans">
-      <GlobalHeaders />
-      <div className="mt-4">
-        <div className="bg-gray-200 h-[1px]"></div>
-        <div className="bg-gray-100">
-          <div className="text-center mt-3 text-2xl ">Günün Sözü</div>
-          <div className="text-center text-lg mt-2 mb-5">
-            <div className="">"Başarısızlık yoktur. Sadece deneyimler ve onlara karşı tepkileriniz vardır."</div>
+    <div className="splash-screen" onAnimationEnd={onAnimationEnd}>
+      <img src="https://s9.gifyu.com/images/SaLae.gif" alt="" />
+    </div>
+  );
+}
+
+export default function Anasayfa() {
+  const [dateTime, setDateTime] = useState(new Date());
+  const [showSplash, setShowSplash] = useState(true);
+  const [formattedTime, setFormattedTime] = useState("");
+
+  useEffect(() => {
+    const timerID = setInterval(() => {
+      setDateTime(new Date());
+    }, 1000);
+
+    // 5 saniye sonra splash ekranı kaldır
+    const splashTimer = setTimeout(() => {
+      setShowSplash(false);
+    }, 6000);
+
+    // Temizlik
+    return () => {
+      clearInterval(timerID);
+      clearTimeout(splashTimer);
+    };
+  }, []);
+
+  useEffect(() => {
+    setFormattedTime(dateTime.toLocaleTimeString());
+  }, [dateTime]);
+
+  const formattedDate = dateTime.toLocaleDateString();
+
+  const handleAnimationEnd = () => {
+    setShowSplash(false);
+  };
+  return (
+    <div className="h-screen bg-gray-100 ">
+      <div className="bg-gray-800  font-RopaSansFonts">
+        {showSplash && <SplashScreen onAnimationEnd={handleAnimationEnd} />}{" "}
+        <div className={`flex  pr-5 text-white text-xl pb-3 pt-3 ${showSplash ? "hidden" : "block"}`}>
+          <div className="w-1/2 flex justify-start pl-2 items-center">
+            <img className="h-12" src="https://i.ibb.co/X7Gmpht/logos.png" alt="" />
+            <div className="justify-center flex items-center pl-8">Alcazar Cafe</div>
+          </div>
+          
+          <div className="grid w-1/2 justify-end items-center ">
+            <div className="">{formattedDate} </div> <div className="">{formattedTime}</div>
           </div>
         </div>
-        <div className="bg-gray-200 h-[1px]"></div>
       </div>
-      <div className="flex mt-10  ">
-        <div className=" w-1/3 border-2 border-purple-500 rounded-md ml-2 ">
-          <h3 className="text-center text-2xl mt-4">En Popüler Yazarlar</h3>
-          <div className="p-5">
-            <div className="max-w-lg mx-auto rounded-lg mt-3">
-              <div className="flex items-center mb-6 border border-sky-500 p-4 rounded-lg cursor-pointer">
-                <img src="https://randomuser.me/api/portraits/men/61.jpg" alt="Avatar" className="w-12 h-12 rounded-full mr-4" />
-                <div>
-                  <div className="text-lg font-medium text-gray-800">Yaşar Kemal</div>
-                </div>
-              </div>
-            </div>
-            <div className="max-w-lg mx-auto rounded-lg ">
-              <div className="flex items-center mb-6 border border-sky-500 p-4 rounded-lg cursor-pointer">
-                <img src="https://randomuser.me/api/portraits/men/98.jpg" alt="Avatar" className="w-12 h-12 rounded-full mr-4" />
-                <div>
-                  <div className="text-lg font-medium text-gray-800">George Orwell</div>
-                </div>
-              </div>
-            </div>
-            <div className="max-w-lg mx-auto rounded-lg ">
-              <div className="flex items-center mb-6 border border-sky-500 p-4 rounded-lg cursor-pointer" >
-                <img src="https://randomuser.me/api/portraits/men/15.jpg" alt="Avatar" className="w-12 h-12 rounded-full mr-4" />
-                <div>
-                  <div className="text-lg font-medium text-gray-800">Gabriel Garcia Marquez</div>
-                </div>
-              </div>
-            </div>
-            <div className="max-w-lg mx-auto rounded-lg ">
-              <div className="flex items-center mb-6 border border-sky-500 p-4 rounded-lg cursor-pointer">
-                <img src="https://randomuser.me/api/portraits/men/52.jpg" alt="Avatar" className="w-12 h-12 rounded-full mr-4" />
-                <div>
-                  <div className="text-lg font-medium text-gray-800">Ray Bradbury</div>
-                </div>
-              </div>
-            </div>
-            <div className="max-w-lg mx-auto rounded-lg ">
-              <div className="flex items-center mb-6 border border-sky-500 p-4 rounded-lg cursor-pointer">
-                <img src="https://randomuser.me/api/portraits/men/19.jpg" alt="Avatar" className="w-12 h-12 rounded-full mr-4" />
-                <div>
-                  <div className="text-lg font-medium text-gray-800">Sabahattin Ali</div>
-                </div>
-              </div>
-            </div>
-            <div className="max-w-lg mx-auto rounded-lg ">
-              <div className="flex items-center mb-6 border border-sky-500 p-4 rounded-lg cursor-pointer">
-                <img src="https://randomuser.me/api/portraits/men/99.jpg" alt="Avatar" className="w-12 h-12 rounded-full mr-4" />
-                <div>
-                  <div className="text-lg font-medium text-gray-800">Fyodor Dostoyevski</div>
-                </div>
-              </div>
-            </div>
-           
-          </div>
+      <div className="w-full h-[900px] pt-5 pr-5 pl-5 ">
+        <div className="bg-gray-500 rounded-md relative w-full mb-5">
+          <img src="https://images.unsplash.com/photo-1515697320591-f3eb3566bc3c?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="background image" className=" opacity-40 blur-[2px] w-full h-full object-cover rounded-md" />
+          {/* Merhaba yazısı */}
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white text-3xl font-bold">Menü</div>
         </div>
-        <div className=" w-1/3 border border-red-800 rounded-md ml-2 mr-2">
-          <div className="text-center text-2xl mt-4">En Sevilen Sözler</div>
-          <div className="max-w-lg mx-auto border border-sky-500 px-6 py-4 rounded-lg mt-3">
-            <div className="flex items-center mb-6">
-              <img src="https://randomuser.me/api/portraits/men/15.jpg" alt="Avatar" className="w-12 h-12 rounded-full mr-4 cursor-pointer" />
-              <div className="">
-                <div className="text-lg font-medium text-gray-800 cursor-pointer">Elbert Hubbard </div>
-                <div className="text-gray-500">Yazar ve Yayımcı</div>
-              </div>
-            </div>
-            <p className="text-lg leading-relaxed mb-6 ">Hayatta yapabileceğiniz en büyük hata, sürekli olarak bir hata yapabileceğiniz korkusudur. </p>
-            <div className="flex justify-between items-center">
-              <div>
-                <a href="#" className="text-gray-500 hover:text-gray-700 mr-4">
-                  <i className="far fa-thumbs-up"></i> Beğen
-                </a>
-              </div>
-              <div className="flex items-center">
-                <a href="#" className="text-gray-500 hover:text-gray-700 mr-2">
-                  <i className="far fa-flag"></i> Sorun Bildir
-                </a>
-              </div>
-            </div>
-          </div>
-          <div className="max-w-lg mx-auto border border-sky-500 px-6 py-4 rounded-lg mt-3">
-            <div className="flex items-center mb-6">
-              <img src="https://randomuser.me/api/portraits/men/55.jpg" alt="Avatar" className="w-12 h-12 rounded-full mr-4 cursor-pointer" />
-              <div>
-                <div className="text-lg font-medium text-gray-800 cursor-pointer">Dalai Lama</div>
-                <div className="text-gray-500">Dini Lider</div>
-              </div>
-            </div>
-            <p className="text-lg leading-relaxed mb-6">Olumlu yönü, potansiyeli görün ve çaba gösterin.</p>
-            <div className="flex justify-between items-center">
-              <div>
-                <a href="#" className="text-gray-500 hover:text-gray-700 mr-4">
-                  <i className="far fa-thumbs-up"></i> Beğen
-                </a>
-              </div>
-              <div className="flex items-center">
-                <a href="#" className="text-gray-500 hover:text-gray-700 mr-2">
-                  <i className="far fa-flag"></i> Sorun Bildir
-                </a>
-              </div>
-            </div>
-          </div>
-          <div className="max-w-lg mx-auto border border-sky-500 px-6 py-4 rounded-lg mt-3">
-            <div className="flex items-center mb-6">
-              <img src="https://randomuser.me/api/portraits/men/61.jpg" alt="Avatar" className="w-12 h-12 rounded-full mr-4 cursor-pointer" />
-              <div>
-                <div className="text-lg font-medium text-gray-800 cursor-pointer">Lao Tzu</div>
-                <div className="text-gray-500">Yazar</div>
-              </div>
-            </div>
-            <p className="text-lg leading-relaxed mb-6">Eksik hiçbir şey olmadığını anladığınızda, tüm dünya size aittir.</p>
-            <div className="flex justify-between items-center">
-              <div>
-                <a href="#" className="text-gray-500 hover:text-gray-700 mr-4">
-                  <i className="far fa-thumbs-up"></i> Beğen
-                </a>
-              </div>
-              <div className="flex items-center">
-                <a href="#" className="text-gray-500 hover:text-gray-700 mr-4">
-                  <i className="far fa-flag"></i> Sorun Bildir
-                </a>
-              </div>
-            </div>
-          </div>
+        <div className="bg-gray-500 rounded-md relative w-full mb-5">
+          <img src="https://images.unsplash.com/photo-1588675646184-f5b0b0b0b2de?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="background image" className="opacity-40 blur-[1px] w-full h-full object-cover rounded-md" />
+          {/* Merhaba yazısı */}
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white text-3xl font-bold">Garson Çağır</div>
         </div>
-        <div className=" w-1/3 border border-green-900 rounded-md mr-2">
-          <div className="text-center text-2xl mt-4">En Popüler Konular</div>
-          <div className="flex justify-center mt-3 w-full">
-            <div className="block w-full max-w-[30rem] rounded-lg bg-gray-200 text-surface shadow-secondary-1 dark:bg-surface-dark dark:text-white cursor-pointer">
-              <ul className="w-full">
-                <li className="w-full border-b-2 border-neutral-100 border-opacity-100 px-4 py-3 mt-2 dark:border-white/10 ">Başarı Sözleri</li>
-
-                <li className="w-full border-b-2 border-neutral-100 border-opacity-100 px-4 py-3  dark:border-white/10">Motivasyon Sözleri</li>
-                <li className="w-full border-b-2 border-neutral-100 border-opacity-100 px-4 py-3  dark:border-white/10">Doğum Günü Tebrik Mesajları</li>
-                <li className="w-full border-b-2 border-neutral-100 border-opacity-100 px-4 py-3 mt-2 dark:border-white/10">Mezuniyet Mesajları</li>
-
-                <li className="w-full border-b-2 border-neutral-100 border-opacity-100 px-4 py-3  dark:border-white/10">Evlilik Mesajları</li>
-                <li className="w-full border-b-2 border-neutral-100 border-opacity-100 px-4 py-3  dark:border-white/10">Sevgi sözleri</li>
-                <li className="w-full border-b-2 border-neutral-100 border-opacity-100 px-4 py-3 mt-2 dark:border-white/10">Aşk Sözleri</li>
-
-                <li className="w-full border-b-2 border-neutral-100 border-opacity-100 px-4 py-3  dark:border-white/10">Gurur Sözleri</li>
-                <li className="w-full border-b-2 border-neutral-100 border-opacity-100 px-4 py-3  dark:border-white/10">Karma Sözler</li>
-                <li className="w-full border-b-2 border-neutral-100 border-opacity-100 px-4 py-3 mt-2 dark:border-white/10">Başarı Sözleri</li>
-
-                <li className="w-full border-b-2 border-neutral-100 border-opacity-100 px-4 py-3  dark:border-white/10">İstikrar Sözleri</li>
-                <li className="w-full border-b-2 border-neutral-100 border-opacity-100 px-4 py-3  dark:border-white/10">Albert Einstein Sözleri</li>
-                <li className="w-full border-b-2 border-neutral-100 border-opacity-100 px-4 py-3 mt-2 dark:border-white/10">Milli Sözler</li>
-
-               
-              </ul>
-              <div className="p-3 text-end bg-white text-lg cursor-pointer">Tüm konular...</div>
-            </div>
-            
-          </div>
+        <div className="bg-gray-500 rounded-md relative w-full mb-5">
+          <img src="https://images.unsplash.com/photo-1556742031-c6961e8560b0?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="background image" className="opacity-40 blur-[1px] w-full h-full object-cover rounded-md" />
+          {/* Merhaba yazısı */}
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white text-3xl font-bold">Hesap İste</div>
         </div>
       </div>
     </div>
